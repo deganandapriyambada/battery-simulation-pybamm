@@ -1,0 +1,11 @@
+bin
+.ipynb_checkpoints
+cmake
+conda-meta
+etc
+include
+lib
+man
+sbin
+share
+ssl
