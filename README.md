@@ -1,5 +1,7 @@
-Installation Method
+Production
 
-    conda create --name <project_name> python=3.11
-    conda env create -f environment.yml
-    conda activate <project_name>
+    gunicorn -w 4 -k uvicorn.workers.UvicornWorker app:app
+
+Development
+
+    uvicorn app:app --reload
