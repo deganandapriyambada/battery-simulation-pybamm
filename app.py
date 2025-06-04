@@ -8,14 +8,18 @@ from typing import List
 model = tf.keras.models.load_model("./model/soc_prediction_model.keras")
 scaler = joblib.load("./scaler/soc_minmax_scaler_new.pkl")  # Load saved scaler
 
-app = FastAPI()
+app = FastAPI(    
+    title="Battery SOC Prediction API",
+    description="API to predict State of Charge (SOC) of battery cells using ML Models (FNN)",
+    version="1.0.0"
+)
 
 class BatteryInput(BaseModel):
     voltage: float = Field(..., description="Battery Cell voltage (Volts). Ranged between 2.7 ~ 4.2. Below 2.7 SOC will 0 and above 4.1 && <= 4.2 would be 1 (100%)", example=3.)
     current: float = Field(..., description="Battery Cell Current (Ampere). Must be Negative", example=-0.02)
     temperature: float = Field(..., description="Battery voltage (Celcius)", example=-19.)
 
-@app.post("/battery/cell/prediction/soc")
+@app.post("/battery/cell/prediction/soc", tags=["SOC Prediction"])
 async def predict_battery_cell_soc(request: BatteryInput):
     
     inputRequest = np.array([[request.voltage, request.current, request.temperature]])
@@ -59,7 +63,7 @@ batchBatteryCellSamplePayload = [
 ]
 
 
-@app.post("/battery/prediction/soc")
+@app.post("/battery/prediction/soc", tags=["SOC Prediction"])
 async def predict_battery_soc(request: List[BatteryInput] = Body(..., example=batchBatteryCellSamplePayload)):
     results = []
 
