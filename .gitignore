@@ -13,3 +13,4 @@ dataset
 batch_battery_simulation.csv
 simulation_output_coulomb.csv
 __pycache__
+environment.yml
